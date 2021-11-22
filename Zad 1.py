@@ -3,6 +3,10 @@ class Aho:
         self.goto = {}
         self.out = []
         self.breaks = None
+        
+    def __repr__(self):
+        p = self.out
+        print(p)
 
 def make_trie(words):  #tworzenie drzewa
     root = Aho()  #obiekt klasy Aho
