@@ -1,14 +1,16 @@
-visited = []
+# nazwa pliku nie powinna zawierać spacji, bo się go nie da importować
+
+visited = []    # zmienna globalna; a co w przypadku zagnieżdżonych pętli?
 
 class Graph:
     def __init__(self):
-        self.graph = {"45": ["Anna", "1a"], "Anna": ["45"], "1a": ["45"]}
+        self.graph = {"45": ["Anna", "1a"], "Anna": ["45"], "1a": ["45"]}   # spodziewałbym się raczej pustego grafu
 
-    def add_v(self, v):
+    def add_v(self, v): # nie ma co oszczędzać na długości nazwy
         if v not in self.graph:
             self.graph[v] = []
         else:
-            print("Wierzchołek już istnieje")
+            print("Wierzchołek już istnieje")   # wyjątek byłby lepszy
 
     def add_e(self, e):
         e = set(e)
@@ -19,16 +21,16 @@ class Graph:
             else:
                 print("Krawędź nie może zostać dodana")
 
-    def edges(self, v):
+    def edges(self, v): # lepiej get_edges
         return self.graph[v]
         
-    def all_vertices(self):
+    def all_vertices(self): # j.w.
         return set(self.graph.keys())
 
     def remove_v(self, v):
         if v  in self.graph:
             self.graph.pop(v)
-            for v2 in self.graph:
+            for v2 in self.graph:   # czy nie da się tego zrobić wydajniej?
                 if v in self.graph[v2]:
                     self.graph[v2].remove(v)
         else:
@@ -43,7 +45,7 @@ class Graph:
             else:
                 print("Krawędź nie może zostać usunięta")
 
-    def __iter__(self, list0):
+    def __iter__(self, list0):  # __iter__ nie może przyjmować parametrów
         self.list0 = iter(list0)
         return self.list0
     
