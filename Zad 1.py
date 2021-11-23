@@ -40,13 +40,13 @@ def bfs(words):
 def search_pattern(text, call): #szukamy wzorca
     root = make_trie(words) 
     point = root
-    for i in range(len(text)): 
-        while point is not None and text[i] not in point.goto:
+    for i,a in enumerate(text): 
+        while point is not None and a not in point.goto:
             point = point.breaks
         if point == None:
             point = root
-        if text[i] in point.goto:
-            point = point.goto[text[i]]
+        if a in point.goto:
+            point = point.goto[a]
         for word in point.out:
             call(word,i - len(word) + 1)
 
