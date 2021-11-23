@@ -1,10 +1,11 @@
 import re
+from collections import Counter
 
 if __name__ == '__main__':
 
     filename = "potop.txt"
     f = open(filename, "r", encoding='utf-8')
-    f = f.read() #sprobuj zamienic miejscami
+    f = f.read() 
     f = f.lower() 
     patterns = r'[0-9]'
     non_alphabetical = r'[^\w]'
@@ -18,9 +19,18 @@ if __name__ == '__main__':
             freq[w] = 0
         freq[w] += 1
 
-    max_freq = max(freq.values())
-    
+    s = sorted(freq.values(), reverse= True)
+    s = list(dict.fromkeys(s))
 
-    for w in freq:
-        if freq[w] == max_freq:
-            print("Słowo \"%s\" wystąpiło najwięszką ilość razy, czyli %s razy" % (w, max_freq))
+    n = 10
+    list1 = []
+    count = 1
+    for i in s:
+        if count <= n:
+            list1.append(i)
+        count = count + 1
+    print(list1)
+    for value in list1:
+        for key in freq.keys():
+            if freq[key] == value:
+                print("Słowo \"%s\" wystąpiło %s razy" % (key, value))
