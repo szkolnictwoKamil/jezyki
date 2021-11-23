@@ -32,4 +32,4 @@ if __name__ == '__main__':
     for value in list1:
         for key in freq.keys():
             if freq[key] == value:
-                print("Słowo \"%s\" wystąpiło %s razy" % (key, value))
+                print("Słowo \"{}\" wystąpiło {} razy".format(key, value))
