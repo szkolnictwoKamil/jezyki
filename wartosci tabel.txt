@@ -1,0 +1,37 @@
+wartosci tabel
+        INSERT INTO Czytelnik (id_czytelnika, imię, nazwisko, email, hasło)
+        VALUES
+            (1,'Karol','Waniszko', 'kwaniszko@czyt.pl', 'rurza4652'),
+            (2,'Arnold','Duralełko', 'Misiaczek@czyt.pl', 'tarnowskiegory12'),
+            (3,'Anna','Gumiś', 'Gumiszella@czyt.pl', 'haslo1234')
+
+
+        INSERT INTO Bibliotekarz (id_bibliotekarza, imię, nazwisko, email, hasło)
+        VALUES
+            ('Kasia','Nursery', 'kolanko', 'nurserytonieja'),
+            ('Hanna','Tabaszewska', 'Hansolo', '1234')
+
+
+
+        INSERT INTO Książka (id_ksiazki, tytuł, autor, na_stanie)
+        VALUES
+            ('W pustyni i w puszczy','Henryk Sienkiewicz', 9),
+            ('Duma i uprzedzenie','Jane Austen', 1),
+            ('Zbiry uciekaja a cukinia rośnie','Robert Lewandowski', 0),
+            ('Romeo i Julia','William Shakespeare', 10),
+            ('Atobiografia Karoliny Robakowskiej','Karolina Robakowska', 2),
+            ('Hamlet','William Shakespeare', 6)
+
+
+
+
+        INSERT INTO Wypozyczone (id_ksiazki, id_czytelnika, tytul,max_termin_oddania, prolongacja,zwrocone)
+        VALUES
+            (1,2,'W pustyni i w puszczy',2022-02-01,1,1),
+            (3,2,'Zbiry uciekaja a cukinia rosnie',2022-03-29,1,0),
+ 
+
+
+        INSERT INTO rezerwacja (id_ksiazki, id_czytelnika, tytul)
+        VALUES
+            (3,3,'Zbiry uciekaja a cukinia rosnie')
