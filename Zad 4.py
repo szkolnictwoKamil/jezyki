@@ -1,3 +1,4 @@
+# to zadanie się nie powinno zmieścić w jednym pliku
 import pyodbc
 
 server = 'dbmanage.lab.ki.agh.edu.pl'
@@ -28,7 +29,7 @@ def menu(info, options, functions, special_option, special_function):
         try:
             decision = int(input("> "))
             if decision in range(1, len(options) + 1):
-                functions[decision - 1]()
+                functions[decision - 1]()   # a tu nie powinno być return?
 
             elif decision == 0 and special_option:
                 return special_function()
@@ -36,15 +37,15 @@ def menu(info, options, functions, special_option, special_function):
                 print("Spróbuj jeszcze raz.")
             print("\n Proszę wykonać kolejną operację.")
         except ValueError:
-            print(f"Podaj liczbę od 1 do {len(options)}")
+            print(f"Podaj liczbę od 1 do {len(options)}")   # a 0?
 
 
-def wypozycz():
+def wypozycz(): # polglish
     cursor = cnxn.cursor()
     w = cursor.execute(f'''
                         select id_ksiazki from Ksiazka where na_stanie > 0
                                     ''').fetchall()
-    list = []
+    list = []   # przesłonięcie nazwy wbudowanej
     for element in w:
         list.append(int(element[0]))
     try:
@@ -54,7 +55,7 @@ def wypozycz():
                                           UPDATE Ksiazka
                                           SET na_stanie = na_stanie - 1
                                           WHERE id_ksiazki = {id_ksiazki}
-                                                ''')
+                                                ''')    # te zapytania powinny być wydzielone, każde do osobnej funkcji;
             cursor.execute(f'''
                         INSERT INTO Wypozyczone (id_ksiazki, id_czytelnika, tytul, max_termin_oddania,Prolongacja, Zwrocone)
                         VALUES
@@ -101,7 +102,7 @@ def prolonguj():
                                     select prolongacja from wypozyczone where id_wypozyczenia = {id_wypozyczenia}
                                                 ''').fetchone()
 
-        if int(w[0]) == 0: #nie zostało wcześniej prolongowane
+        if int(w[0]) == 0: #nie zostało wcześniej prolongowane  # 
             cursor.execute(f'''
                             UPDATE wypozyczone
                             SET max_termin_oddania = DATEADD(day, 14, max_termin_oddania), 
@@ -116,7 +117,7 @@ def prolonguj():
     cursor.commit()
     cursor.close()
 
-def Wyjdz():
+def Wyjdz():    # raczej snake_case (małymi literami)
     print("Wychodzisz z okna.")
 
 
@@ -207,7 +208,7 @@ def wyszukaj():
     cursor = cnxn.cursor()
     wpis = input('Proszę wpisać tytuł, autora lub słowo klucz: ')
     katalog = cursor.execute(
-        f"""select * from Ksiazka where tytul like '%{wpis}%' or autor like '%{wpis}%' """).fetchall()
+        f"""select * from Ksiazka where tytul like '%{wpis}%' or autor like '%{wpis}%' """).fetchall()  # a słowa kluczowe?
     print("Pasujące wyniki w postaci (id książki, tytuł, autor, liczba sztuk na stanie):")
     for ind, element in enumerate(katalog, start=1):
         print(f"{ind}. {element}")
@@ -219,7 +220,7 @@ def b_logowanie():
     try:
 
         log_result = logowanie('id_bibliotekarza', 'Bibliotekarz')
-        global userid
+        global userid   # lepiej to wszystko zamknąć w klasę i się odwoływać do atrybutu
         userid = log_result[0]
         decision = menu("Proszę wybrać opcję:",
                         ["Wyświetl katalog.", "Zwróć Książkę.", "Dodaj nową książkę.", "Usuń książkę.", "Dodaj użytkownika.",
@@ -229,13 +230,13 @@ def b_logowanie():
         print("Błędny login lub hasło. Spróbuj ponownie")
 
 
-def c_logowanie():
+def c_logowanie():  # czym się różni c_logowanie od b_logowania?
     try:
         log_result = logowanie('id_czytelnika', 'Czytelnik')
         global c_userid
 
         c_userid = log_result[0]
-        decision = menu("Proszę wybrać opcję:",
+        decision = menu("Proszę wybrać opcję:", # funkcja się nazywa "logowanie", a wyświetla menu
                         ["Zobacz katalog.", "Wypożycz książkę.", "Zarezerwuj książkę.", "Przedłuż wypożyczenie.",
                          "Wyszukaj."],
                         [katalog, wypozycz, zarezerwuj, prolonguj, wyszukaj], "Wstecz", Wyjdz)
@@ -255,12 +256,12 @@ def logowanie(id_name, table_name):
     cursor.close()
     return user
 
+if __name__ == "__main__":
+    logowanie = menu("Proszę wybrać użytkownika do logowania.", ["Bibliotekarz", "Czytelnik"], [b_logowanie, c_logowanie],
+                     "Wyjdź", Wyjdz)
 
-logowanie = menu("Proszę wybrać użytkownika do logowania.", ["Bibliotekarz", "Czytelnik"], [b_logowanie, c_logowanie],
-                 "Wyjdź", Wyjdz)
 
-
-
+# to powinno być w osobnym pliku .sql
 # Tworzenie tabel
 
 # USE [master]
