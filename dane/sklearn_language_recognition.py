@@ -32,9 +32,9 @@ COLNAMES = ['model', 'dataset', 'accuracy', 'precision', 'recall', 'F1 score']
 
 def clean_text(line):
     line = re.sub(r"[^\w]", " ", line)
-    line = re.sub(r"[0-9]", " ", line)
+    line = re.sub(r"[0-9]", " ", line)  # można połączyć te wyrażenia regularne
     line = re.sub(r"\s\s+", " ", line)
-    line = unidecode.unidecode(line)
+    line = unidecode.unidecode(line)    # nie lepiej od tego zacząć?
     line = line.lower()
 
     return line
@@ -80,14 +80,14 @@ def load_datasets(filenames, N, chunk_size):
     keywords = get_keywords(filenames, n=N)
 
     for filename in tqdm(filenames):
-        country = filename.split(".")[0]
+        country = filename.split(".")[0]    # raczej language niż country
         filepath = f"dane/{country}.txt"
 
         with open(filepath, "r", encoding="iso-8859-1") as input_file:
             my_file = input_file.read()
             my_file = clean_text(my_file)
             lines = [my_file[i:i + chunk_size] for i in range(0, len(my_file), chunk_size)]
-            rows = [process_input(line, keywords=keywords, n=N) for line in lines]
+            rows = [process_input(line, keywords=keywords, n=N) for line in lines]  # skoro tu przetwarzamy linia po linii, to nie dałoby się tak samo wczytywać pliku, zamiast read'em?
             try:
                 X = np.concatenate([X, rows])
                 y = np.append(y, [country] * len(rows))
@@ -133,7 +133,7 @@ def train_test_svm(X_train, X_test, y_train, y_test):
     return pd.DataFrame(results, columns=COLNAMES)
 
 
-def train_test_knn(X_train, X_test, y_train, y_test):
+def train_test_knn(X_train, X_test, y_train, y_test):   # ta funkcja jest podobna do powyższej; nie dałoby się tego bardziej uogólnić?
     logger.info('Train kNN classifier')
 
     results = []
